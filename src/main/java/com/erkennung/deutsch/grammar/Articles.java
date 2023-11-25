@@ -7,10 +7,48 @@ import com.erkennung.deutsch.grammar.constants.Number;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Articles {
 
     private final Set<ArticleForm> articles;
+
+    public Set<ArticleForm> filter(Set<Case> cases, Set<Gender> genders, Set<Number> numbers, Set<ArticleType> types) {
+        Stream<ArticleForm> filteredSet = articles.stream();
+
+        if (cases != null && !cases.isEmpty()) {
+            filteredSet = filteredSet.filter(articleForm -> cases.contains(articleForm.getGrammaticalCase()));
+        }
+
+        if (genders != null && !genders.isEmpty()) {
+            filteredSet = filteredSet.filter(articleForm -> genders.contains(articleForm.getGender()));
+
+        }
+
+        if (numbers != null && !numbers.isEmpty()) {
+            filteredSet = filteredSet.filter(articleForm -> numbers.contains(articleForm.getNumber()));
+        }
+
+        if (types != null && !types.isEmpty()) {
+            filteredSet = filteredSet.filter(articleForm -> types.contains(articleForm.getArticleType()));
+        }
+
+        return filteredSet.collect(Collectors.toSet());
+    }
+
+    public Set<ArticleForm> getAllArticles() {
+        return filter(null, null, null, null);
+    }
+
+    public ArticleForm getArticle(Case caze, Gender gender, Number number, ArticleType type) {
+        Set<ArticleForm> forms = this.filter(Set.of(caze), Set.of(gender), Set.of(number), Set.of(type));
+        if (forms != null && !forms.isEmpty()) {
+            return (ArticleForm) forms.toArray()[0];
+        }
+
+        return null;
+    }
 
     public Articles() {
         this.articles = new HashSet<>();
@@ -41,16 +79,16 @@ public class Articles {
         this.addArticle("des", Case.GENITIVE, Gender.NEUTER, Number.SINGULAR, ArticleType.DEFINITE);
 
         // Masculine Plural Definite Articles
-        this.addArticle("die", Case.NOMINATIVE, Gender.MASCULINE, Number.SINGULAR, ArticleType.DEFINITE);
-        this.addArticle("die", Case.ACCUSATIVE, Gender.MASCULINE, Number.SINGULAR, ArticleType.DEFINITE);
-        this.addArticle("den", Case.DATIVE, Gender.MASCULINE, Number.SINGULAR, ArticleType.DEFINITE);
-        this.addArticle("der", Case.GENITIVE, Gender.MASCULINE, Number.SINGULAR, ArticleType.DEFINITE);
+        this.addArticle("die", Case.NOMINATIVE, Gender.MASCULINE, Number.PLURAL, ArticleType.DEFINITE);
+        this.addArticle("die", Case.ACCUSATIVE, Gender.MASCULINE, Number.PLURAL, ArticleType.DEFINITE);
+        this.addArticle("den", Case.DATIVE, Gender.MASCULINE, Number.PLURAL, ArticleType.DEFINITE);
+        this.addArticle("der", Case.GENITIVE, Gender.MASCULINE, Number.PLURAL, ArticleType.DEFINITE);
 
         // Feminine Plural Definite Articles
-        this.addArticle("die", Case.NOMINATIVE, Gender.FEMININE, Number.SINGULAR, ArticleType.DEFINITE);
-        this.addArticle("die", Case.ACCUSATIVE, Gender.FEMININE, Number.SINGULAR, ArticleType.DEFINITE);
-        this.addArticle("den", Case.DATIVE, Gender.FEMININE, Number.SINGULAR, ArticleType.DEFINITE);
-        this.addArticle("der", Case.GENITIVE, Gender.FEMININE, Number.SINGULAR, ArticleType.DEFINITE);
+        this.addArticle("die", Case.NOMINATIVE, Gender.FEMININE, Number.PLURAL, ArticleType.DEFINITE);
+        this.addArticle("die", Case.ACCUSATIVE, Gender.FEMININE, Number.PLURAL, ArticleType.DEFINITE);
+        this.addArticle("den", Case.DATIVE, Gender.FEMININE, Number.PLURAL, ArticleType.DEFINITE);
+        this.addArticle("der", Case.GENITIVE, Gender.FEMININE, Number.PLURAL, ArticleType.DEFINITE);
 
         // Neuter Plural Definite Articles
         this.addArticle("die", Case.NOMINATIVE, Gender.NEUTER, Number.SINGULAR, ArticleType.DEFINITE);
@@ -104,22 +142,22 @@ public class Articles {
         this.addArticle("keines", Case.GENITIVE, Gender.NEUTER, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
 
         // Masculine Plural Definite Articles
-        this.addArticle("keine", Case.NOMINATIVE, Gender.MASCULINE, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
-        this.addArticle("keine", Case.ACCUSATIVE, Gender.MASCULINE, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
-        this.addArticle("keinen", Case.DATIVE, Gender.MASCULINE, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
-        this.addArticle("keiner", Case.GENITIVE, Gender.MASCULINE, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keine", Case.NOMINATIVE, Gender.MASCULINE, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keine", Case.ACCUSATIVE, Gender.MASCULINE, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keinen", Case.DATIVE, Gender.MASCULINE, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keiner", Case.GENITIVE, Gender.MASCULINE, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
 
         // Feminine Plural Definite Articles
-        this.addArticle("keine", Case.NOMINATIVE, Gender.FEMININE, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
-        this.addArticle("keine", Case.ACCUSATIVE, Gender.FEMININE, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
-        this.addArticle("keinen", Case.DATIVE, Gender.FEMININE, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
-        this.addArticle("keiner", Case.GENITIVE, Gender.FEMININE, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keine", Case.NOMINATIVE, Gender.FEMININE, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keine", Case.ACCUSATIVE, Gender.FEMININE, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keinen", Case.DATIVE, Gender.FEMININE, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keiner", Case.GENITIVE, Gender.FEMININE, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
 
         // Neuter Plural Definite Articles
-        this.addArticle("keine", Case.NOMINATIVE, Gender.NEUTER, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
-        this.addArticle("keine", Case.ACCUSATIVE, Gender.NEUTER, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
-        this.addArticle("keinen", Case.DATIVE, Gender.NEUTER, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
-        this.addArticle("keiner", Case.GENITIVE, Gender.NEUTER, Number.SINGULAR, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keine", Case.NOMINATIVE, Gender.NEUTER, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keine", Case.ACCUSATIVE, Gender.NEUTER, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keinen", Case.DATIVE, Gender.NEUTER, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
+        this.addArticle("keiner", Case.GENITIVE, Gender.NEUTER, Number.PLURAL, ArticleType.INDEFINITE_NEGATIVE);
 
     }
 
