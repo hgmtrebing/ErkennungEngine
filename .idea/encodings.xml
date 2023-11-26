@@ -4,6 +4,8 @@
     <file url="file://$PROJECT_DIR$/erkennung-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/erkennung-engine/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/erkennung-engine/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/erkennung-spec/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/erkennung-spec/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

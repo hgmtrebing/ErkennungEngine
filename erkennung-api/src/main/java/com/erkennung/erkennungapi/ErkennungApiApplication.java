@@ -7,7 +7,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ErkennungApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ErkennungApiApplication.class, args);
+		try {
+			SpringApplication.run(ErkennungApiApplication.class, args);
+		} catch (Throwable t) {
+
+			while (t != null) {
+				System.out.println(t.toString());
+				for(StackTraceElement e: t.getStackTrace()) {
+					System.out.println(e.toString());
+				}
+				t = t.getCause();
+			}
+		}
 	}
 
 }
