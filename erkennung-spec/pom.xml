@@ -117,6 +117,7 @@
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <version>6.3.0</version>
                 <configuration>
+                    <output>${project.build.directory}/generated-sources</output>
                     <generatorName>spring</generatorName>
                     <generateApiDocumentation>false</generateApiDocumentation>
                     <addCompileSourceRoot>true</addCompileSourceRoot>
@@ -128,9 +129,11 @@
                     <generateModelDocumentation>true</generateModelDocumentation>
                     <generateSupportingFiles>true</generateSupportingFiles>
                     <supportingFilesToGenerate>SpringDocConfiguration.java,ClientConfiguration.java</supportingFilesToGenerate>
+                    <languageSpecificPrimitives>true</languageSpecificPrimitives>
+                    <ignoreFileOverride>${project.basedir}/src/main/resources/openapi.mustache/.openapi-generator-ignore</ignoreFileOverride>
                     <configHelp>false</configHelp>
                     <configOptions>
-                        <interfaceOnly>true</interfaceOnly>
+                        <interfaceOnly>false</interfaceOnly>
                         <skipDefaultInterface>true</skipDefaultInterface>
                         <documentationProvider>springdoc</documentationProvider>
                         <dateLibrary>java8</dateLibrary>
@@ -157,6 +160,7 @@
                             <configOptions>
                                 <modelPackage>com.erkennung.erkennungapi.german.model</modelPackage>
                                 <apiPackage>com.erkennung.erkennungapi.german.api</apiPackage>
+                                <configPackage>com.erkennung.erkennungapi.german.config</configPackage>
                             </configOptions>
                         </configuration>
                     </execution>

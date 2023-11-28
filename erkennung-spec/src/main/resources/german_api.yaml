@@ -5,7 +5,7 @@ info:
     This describes the German API used for Erkennung.
   termsOfService: http://swagger.io/terms/
   contact:
-    email: apiteam@swagger.io
+    email: hgmtrebing@gmail.com
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -14,7 +14,8 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: https://petstore3.swagger.io/api/v3
+  # - url: https://petstore3.swagger.io/api/v3
+  - url: /
 tags:
   - name: Articles
     description: Reference API for German Articles

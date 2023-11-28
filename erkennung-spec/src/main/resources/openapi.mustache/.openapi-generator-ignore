@@ -1,0 +1,2 @@
+# Ignore Generation of Controllers
+**/*Controller.java
