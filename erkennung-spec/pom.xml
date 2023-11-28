@@ -19,30 +19,27 @@
         <jackson-version>2.13.4</jackson-version>
         <jackson-databind-nullable-version>0.2.4</jackson-databind-nullable-version>
         <jackson-databind-version>2.13.4.2</jackson-databind-version>
-        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <scribejava-version>8.0.0</scribejava-version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>openapi-generator-cli</artifactId>
-            <version>${openapi-generator-version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <version>${springdoc-openapi-version}</version>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>openapi-generator</artifactId>
             <version>${openapi-generator-version}</version>
+
+            <!-- This is apparently necessary because openapi-generator uses org.slf4j, which conflicts with
+            logging from Spring. This was causing build failures for me; I used mvn dependency:tree to hunt this down. -->
             <exclusions>
                 <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -118,25 +115,49 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <!-- RELEASE_VERSION -->
                 <version>6.3.0</version>
-                <!-- /RELEASE_VERSION -->
+                <configuration>
+                    <generatorName>spring</generatorName>
+                    <generateApiDocumentation>false</generateApiDocumentation>
+                    <addCompileSourceRoot>true</addCompileSourceRoot>
+                    <enablePostProcessFile>true</enablePostProcessFile>
+                    <generateApis>true</generateApis>
+                    <generateApiTests>false</generateApiTests>
+                    <generateModels>true</generateModels>
+                    <generateModelTests>false</generateModelTests>
+                    <generateModelDocumentation>true</generateModelDocumentation>
+                    <generateSupportingFiles>true</generateSupportingFiles>
+                    <supportingFilesToGenerate>SpringDocConfiguration.java,ClientConfiguration.java</supportingFilesToGenerate>
+                    <configHelp>false</configHelp>
+                    <configOptions>
+                        <interfaceOnly>true</interfaceOnly>
+                        <skipDefaultInterface>true</skipDefaultInterface>
+                        <documentationProvider>springdoc</documentationProvider>
+                        <dateLibrary>java8</dateLibrary>
+                        <serializableModel>true</serializableModel>
+                        <openApiNullable>false</openApiNullable>
+                        <legacyDiscriminatorBehavior>false</legacyDiscriminatorBehavior>
+                        <useTags>true</useTags>
+                        <useResponseEntity>true</useResponseEntity>
+                        <useSpringBoot3>true</useSpringBoot3>
+                        <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
+                    </configOptions>
+                </configuration>
                 <executions>
                     <execution>
+                        <id>german-api</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
+                            <!-- If you get errors with the inputSpec, it is likely because openapi-generator:generate cannot be invoked directly -->
                             <inputSpec>${project.basedir}/src/main/resources/german_api.yaml</inputSpec>
-                            <library>feign</library>
-                            <generatorName>java</generatorName>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
                             <configOptions>
-                                <sourceFolder>src/gen/java/main</sourceFolder>
+                                <modelPackage>com.erkennung.erkennungapi.german.model</modelPackage>
+                                <apiPackage>com.erkennung.erkennungapi.german.api</apiPackage>
                             </configOptions>
-                            <generateApiTests>false</generateApiTests>
-                            <generateModelTests>false</generateModelTests>
-                            <modelPackage>com.erkennung.erkennungapi</modelPackage>
-                            <apiPackage>com.erkennung.erkennungapi</apiPackage>
                         </configuration>
                     </execution>
                 </executions>

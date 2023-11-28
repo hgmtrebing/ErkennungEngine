@@ -26,6 +26,7 @@ paths:
         - Articles
       summary: Retrieve a Master List of Articles.
       description: Retrieve a Master List of German Articles.
+      operationId: getAllArticles
       responses:
         '200':
           description: Successful Retrieval of German Articles.

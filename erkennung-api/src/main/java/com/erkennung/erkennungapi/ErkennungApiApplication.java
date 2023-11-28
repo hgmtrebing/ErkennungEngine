@@ -9,6 +9,7 @@ public class ErkennungApiApplication {
 	public static void main(String[] args) {
 		try {
 			SpringApplication.run(ErkennungApiApplication.class, args);
+			System.out.println();
 		} catch (Throwable t) {
 
 			while (t != null) {
