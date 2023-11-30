@@ -50,6 +50,16 @@ public class Articles {
         return null;
     }
 
+    public boolean checkArticle(String articleForm, Case caze, Gender gender, Number number, ArticleType type) {
+        Set<ArticleForm> forms = this.filter(Set.of(caze), Set.of(gender), Set.of(number), Set.of(type));
+        if (forms != null && !forms.isEmpty()) {
+            return articleForm.equalsIgnoreCase(((ArticleForm) forms.toArray()[0]).getWord());
+        }
+
+        return false;
+    }
+
+
     public Articles() {
         this.articles = new HashSet<>();
         this.initializeWithStandardArticles();

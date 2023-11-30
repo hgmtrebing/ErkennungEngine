@@ -132,4 +132,28 @@ public class GermanArticleController {
         return ResponseEntity.ok(articles.getArticle(caze, gender, number, type));
     }
 
+    @Operation(
+            operationId = "checkArticle",
+            summary = "Checks the correctness of an Article",
+            description = "Checks that an Article has the correct Gender, Number, Case, and Article Type.",
+            tags = {"Articles"},
+            responses = {@ApiResponse(
+                    responseCode = "200",
+                    description = "Article successfully checked.",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Boolean.class)
+                    )}
+            )}
+    )
+    @RequestMapping(
+            method = {RequestMethod.GET},
+            value = {"/api/v1/german/articles/check-article"},
+            produces = {"application/json"}
+    )
+    public ResponseEntity<Boolean> checkArticle(String articleForm, Gender gender, Number number, Case caze, ArticleType type) {
+        return ResponseEntity.ok(articles.checkArticle(articleForm, caze, gender, number, type));
+    }
+
+
 }
