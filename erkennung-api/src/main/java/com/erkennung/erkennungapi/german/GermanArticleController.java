@@ -2,7 +2,12 @@ package com.erkennung.erkennungapi.german;
 
 import com.erkennung.deutsch.grammar.ArticleForm;
 import com.erkennung.deutsch.grammar.Articles;
+import com.erkennung.deutsch.grammar.constants.ArticleType;
+import com.erkennung.deutsch.grammar.constants.Case;
+import com.erkennung.deutsch.grammar.constants.Gender;
+import com.erkennung.deutsch.grammar.constants.Number;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Validated
 @Tag(
@@ -60,4 +68,68 @@ public class GermanArticleController {
     public ResponseEntity<Set<ArticleForm>> getAllArticles() {
         return ResponseEntity.ok(articles.getAllArticles());
     }
+
+    @Operation(
+            operationId = "getFilteredArticles",
+            summary = "Retrieve a Filtered List of Articles.",
+            description = "Retrieve a Filtered List of German Articles.",
+            tags = {"Articles"},
+            responses = {@ApiResponse(
+                    responseCode = "200",
+                    description = "Successful Retrieval of German Articles.",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(
+                                    schema = @Schema(
+                                            implementation = ArticleForm.class
+                                    )
+                            )
+                    )}
+            )}
+    )
+    @RequestMapping(
+            method = {RequestMethod.GET},
+            value = {"/api/v1/german/articles/get-filtered"},
+            produces = {"application/json"}
+    )
+    public ResponseEntity<Set<ArticleForm>> getFilteredArticles(Gender[] genders,
+                                                                Number[] numbers,
+                                                                Case[] cases,
+                                                                ArticleType[] types) {
+
+         return ResponseEntity.ok(articles.filter(
+                 Arrays.stream(cases).collect(Collectors.toSet()),
+                 Arrays.stream(genders).collect(Collectors.toSet()),
+                 Arrays.stream(numbers).collect(Collectors.toSet()),
+                 Arrays.stream(types).collect(Collectors.toSet()))
+         );
+    }
+
+    @Operation(
+            operationId = "getIndividualArticle",
+            summary = "Retrieve an Individual Articles.",
+            description = "Retrieve an individual German Articles.",
+            tags = {"Articles"},
+            responses = {@ApiResponse(
+                    responseCode = "200",
+                    description = "Successful Retrieval of German Article.",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(
+                                    schema = @Schema(
+                                            implementation = ArticleForm.class
+                                    )
+                            )
+                    )}
+            )}
+    )
+    @RequestMapping(
+            method = {RequestMethod.GET},
+            value = {"/api/v1/german/articles/get-individual"},
+            produces = {"application/json"}
+    )
+    public ResponseEntity<ArticleForm> getIndividualArticle(Gender gender, Number number, Case caze, ArticleType type) {
+        return ResponseEntity.ok(articles.getArticle(caze, gender, number, type));
+    }
+
 }
