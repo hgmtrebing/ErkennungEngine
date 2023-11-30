@@ -12,7 +12,6 @@
     <modules>
         <module>erkennung-api</module>
         <module>erkennung-engine</module>
-        <module>erkennung-spec</module>
     </modules>
 
     <properties>
